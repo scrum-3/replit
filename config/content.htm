@@ -4,7 +4,41 @@
 <p>因為看到 Replit 好像有恢復免費帳號的選項, 因此實際測試看看是否可以使用.</p>
 <h1>Commands</h1>
 <p>python main.py 啟動動態編輯系統</p>
-<p>python main2.py 啟動靜態網頁檢視</p><h1>Reeborg</h1>
+<p>python main2.py 啟動靜態網頁檢視</p>
+<p>跨 Github 帳號進行 git push:</p>
+<p>pypush.py</p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">import os
+import subprocess
+
+token = os.getenv("token")
+# Your local repo path
+repo_path = "./"
+
+# Remote URL to push to
+# 因為直接使用 token 在 .git/config 會直接暴露在 public repls 擷取
+# 使用制式 ssh 設定會遭遇定時系統清理, 因此必須每次重新設定
+# 所以將 https 連線 token 存入 Secrets, 並配合以程式方法進行 git push
+remote_url = "https://"+token+"@github.com/mdecycu/cp2025.git"  # or use SSH URL
+
+# Run git push to the remote URL
+result = subprocess.run(
+    ["git", "push", remote_url],
+    cwd=repo_path,
+    capture_output=True,
+    text=True
+)
+
+# Output result
+print("STDOUT:", result.stdout)
+print("STDERR:", result.stderr)
+
+# Check if successful
+if result.returncode == 0:
+    print("✅ Push successful.")
+else:
+    print("❌ Push failed.")
+</pre>
+<p></p><h1>Reeborg</h1>
 <p><a href="https://scrum-3.github.io/replit/reeborg">https://scrum-3.github.io/replit/reeborg</a> </p>
 <p>範例一: <a href="https://scrum-3.github.io/replit/reeborg/?lang=en&amp;mode=python&amp;menu=worlds/menus/select_collection_en.json&amp;name=Alone&amp;url=worlds/tutorial_en/harvest1.json&amp;editor=python/harvest1.py">https://scrum-3.github.io/replit/reeborg/?lang=en&amp;mode=python&amp;menu=worlds/menus/select_collection_en.json&amp;name=Alone&amp;url=worlds/tutorial_en/harvest1.json&amp;editor=python/harvest1.py</a>   </p>
 <p>lang=en</p>
